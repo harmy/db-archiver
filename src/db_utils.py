@@ -100,24 +100,24 @@ def get_file_names(db_name, table_name, archive_db_name, archive_table_name,
                    column_name, where_clause):
 
     dest_mysql_cursor.execute(
-        f'SELECT {column_name} as first_value '
+        f'SELECT {column_name} as first_val '
         f'FROM {archive_db_name}.{archive_table_name} '
         f'ORDER BY {column_name} '
         f'LIMIT 1'
     )
-    first_value = dest_mysql_cursor.fetchone()['first_value']
-    first_value = str(first_value)
+    first_val = dest_mysql_cursor.fetchone()['first_val']
+    first_val = str(first_val)
 
     dest_mysql_cursor.execute(
-        f'SELECT {column_name} as last_value '
+        f'SELECT {column_name} as last_val '
         f'FROM {archive_db_name}.{archive_table_name} '
         f'ORDER BY {column_name} DESC '
         f'LIMIT 1'
     )
-    last_value = dest_mysql_cursor.fetchone()['last_value']
-    last_value = str(last_value)
+    last_val = dest_mysql_cursor.fetchone()['last_val']
+    last_val = str(last_val)
 
-    data_part_name = f'({column_name})_from_({first_value})_to_({last_value})'
+    data_part_name = f'({column_name})_from_({first_val})_to_({last_val})'
     s3_path = f'{db_name}/{table_name}/{data_part_name}_where_({where_clause}).csv'
     local_file_name = f'{table_name}_{data_part_name}.csv'
 
